@@ -15,7 +15,7 @@ class Group(models.Model):
         return {"id": self.id, "title": self.title, "color": self.color}
 
 
-# Disc in the player
+# Disc in the playercrooll
 class Disc(models.Model):
     position = models.PositiveSmallIntegerField(primary_key=True,
                                                 validators=[MinValueValidator(1), MaxValueValidator(settings.CDP_SIZE)])

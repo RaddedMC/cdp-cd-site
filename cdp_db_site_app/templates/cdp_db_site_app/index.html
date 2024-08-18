@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CDP database app</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'base_style.css' %}">
+</head>
+<body>
+    <Header id="header-container">
+        <h1>Sony CD player database application</h1>
+        <p>{{ disc_count }} / {{ disc_capacity }} discs filled</p>
+    </Header>
+    <div id="content-body">
+        <!-- TODO: try to modularize the HTML content -->
+        <link rel="stylesheet" href="{% static 'index_style.css' %}">
+
+        {#    Upper disc carousel    #}
+        <div id="disc-carousel-container">
+            <button class="slide-button" id="left-button">&triangleleft;</button>
+            <div id="disc-carousel">
+                {% for disc in discs %}
+                <div class="disc {% if disc.title == "_" %} empty-disc {% endif %} {% if disc.position == current_disc.position %} active-disc {% endif %}">
+                    <a href="/{{ disc.position }}">
+                        <img src="{{ disc.image }}" class="disc-image">
+                        <h2 class="disc-number">{{ disc.position }}</h2>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="slide-button" id="right-button">&triangleright;</button>
+        </div>
+
+        {#    Group tab bar    #}
+        <div id="group-container">
+            <h2>Group:</h2>
+            <div id="group-list">
+                {% for group in groups %}
+                    <button class="group-button" style="background-color: {{ group.color }}">{{ group.title }}</button>
+                {% endfor %}
+            </div>
+            <button id="new-group-button" class="group-button">+ NEW</button>
+        </div>
+
+        {#    Disc info container     #}
+        <div id="info-container">
+            <div id="text-panel">
+                {% if current_disc.title == "_" %}
+                    <h2 id="text-title">There is no disc in slot #{{ current_disc.position }}</h2>
+                {% else %}
+                    <h2 id="text-title">Title: {{ current_disc.title }}</h2>
+                    <h2 id="text-group">Group:
+                        {% if current_disc.group == None %}
+                            NO GROUP
+                        {% else %}
+                            <button class="group-button" style="background-color: {{ current_disc.group.color }}"> {{ current_disc.group.title }}</button>
+                        {% endif %}
+                    </h2>
+                    <h2 id="text-discnum">Disc #: {{ current_disc.position }}</h2>
+                {% endif %}
+            </div>
+            <div id="button-panel">
+                <button>RETRIEVE</button>
+                <button>EDIT</button>
+                <button>DELETE</button>
+            </div>
+            <div id="big-image">
+                <img src="{{ current_disc.image }}">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -119,6 +119,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static"
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -128,3 +132,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # App-specific settings
 CDP_SIZE = 300  # Set the number of discs that your player can support
 CDP_CONTROL_REDIR_URL = "https://youtu.be/dQw4w9WgXcQ"  # Set the redirect URL for activating the CD player with IR controls
+HOMEPAGE_DISC_COUNT = 7 # Set this to whatever you like! Must be an odd number or else weird things will happen
+# TODO: implement the above
+HOMEPAGE_BLANK_DISC_ASSET = "/static/no-image.png"
+HOMEPAGE_NO_DISC_ASSET= "/static/no-disc.png"
+# TODO: Move this asset to local staticfiles

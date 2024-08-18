@@ -1,0 +1,33 @@
+* {
+    font-family: sans-serif;
+}
+
+#header-container {
+    background-color: #525148;
+    padding: 1em 2em 1em 2em;
+    display: flex;
+    flex-direction: row;
+}
+
+#header-container h1, p {
+    margin: 0;
+    color: white;
+}
+
+#header-container p {
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-weight: bolder;
+}
+
+body {
+    background-color: #e3dcd5;
+    margin: 0;
+}
+
+#content-body {
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+}
