@@ -1,6 +1,6 @@
 # CDP-DB-SITE
 
-> I use a Sony CDP-CX355 player to store video games.
+
 
 
 ## Description
