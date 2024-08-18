@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cdp_db_site_app.apps.CdpDbSiteAppConfig',
+    'colorfield'
 ]
 
 MIDDLEWARE = [
@@ -122,3 +123,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# TODO: Change these when deploying this application!
+# App-specific settings
+CDP_SIZE = 300  # Set the number of discs that your player can support
+CDP_CONTROL_REDIR_URL = "https://youtu.be/dQw4w9WgXcQ"  # Set the redirect URL for activating the CD player with IR controls
