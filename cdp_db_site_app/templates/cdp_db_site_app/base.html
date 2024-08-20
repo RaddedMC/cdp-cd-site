@@ -7,10 +7,7 @@
     <link rel="stylesheet" href="{% static 'base_style.css' %}">
 </head>
 <body>
-    <Header id="header-container">
-        <h1>Sony CD player database application</h1>
-        <p>{{ disc_count }} / {{ disc_capacity }} discs filled</p>
-    </Header>
+    {% include 'cdp_db_site_app/components/titlebar.html' %}
     <div id="content-body">
         {% block content %}
         {% endblock %}

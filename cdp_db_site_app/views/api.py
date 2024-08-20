@@ -6,6 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from django.template import loader
 
 from cdp_db_site import settings
+from cdp_db_site_app.components.plaintext_context import plaintext_context
 from cdp_db_site_app.models import Group, Disc
 
 ### --- LIST INFO --- ###
@@ -53,13 +54,7 @@ def edit_group(request, group):
 # Remove group
 def remove_group(request, group):
     template = loader.get_template('cdp_db_site_app/plaintext_responses.html');
-    context = {
-        "disc_count": Disc.objects.all().count(),
-        "disc_capacity": settings.CDP_SIZE,
-        "response_text": "Group deleted successfully. Any games with this group will now be NO GROUP.",
-        "page_name": "home",
-        "page_link": f"/1"
-    }
+    context = plaintext_context("Group deleted successfully. Any games with this group will now be NO GROUP.", "home", "/")
 
     Group.objects.get(id=group).delete()
     return HttpResponse(template.render(context, request))
@@ -125,13 +120,7 @@ def json_add_edit_disc(request, position):
 # Remove disc
 def remove_disc(request, position):
     template = loader.get_template('cdp_db_site_app/plaintext_responses.html');
-    context = {
-        "disc_count": Disc.objects.all().count(),
-        "disc_capacity": settings.CDP_SIZE,
-        "response_text": "Disc deleted successfully",
-        "page_name": "home",
-        "page_link": f"/{position}"
-    }
+    context = plaintext_context("Disc deleted successfully", "home", f"/{position}")
 
     Disc.objects.get(position=position).delete()
     return HttpResponse(template.render(context, request))

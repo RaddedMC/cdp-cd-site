@@ -4,7 +4,6 @@ import django.core.exceptions
 from colorfield.fields import ColorField
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from django.db.models import Q
 
 from cdp_db_site import settings
 

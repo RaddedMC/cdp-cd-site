@@ -39,6 +39,8 @@ urlpatterns = [
     path("edit/<int:position>", views.pages.edit, name="Edit page for a specific disc"),
     path("group/<int:groupid>/disc", views.pages.groupindex, name="Homepage, but filtered to a group"),
     path("group/<int:groupid>", views.pages.groupindex, name="Homepage, but filtered to a group"),
-    path("group/<int:groupid>/disc/<int:position>", views.pages.groupindex, name="Homepage, but filtered to a group and scrolled to disc")
+    path("group/<int:groupid>/disc/<int:position>", views.pages.groupindex, name="Homepage, but filtered to a group and scrolled to disc"),
+    path("group/<int:groupid>/edit", views.pages.groupchange, name="Edit a group"),
+    path("group/add", views.pages.groupchange, name="Add a group"),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
