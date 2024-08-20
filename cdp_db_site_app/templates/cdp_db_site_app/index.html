@@ -11,7 +11,9 @@
         <h2>Group:</h2>
         <div id="group-list">
             {% for group in groups %}
-                <button class="group-button" style="background-color: {{ group.color }}">{{ group.title }}</button>
+                <a href="/group/{{ group.id }}/disc/{{ current_disc.position }}">
+                    <button class="group-button" style="background-color: {{ group.color }}">{{ group.title }}</button>
+                </a>
             {% endfor %}
         </div>
         <button id="new-group-button" class="group-button">+ NEW</button>

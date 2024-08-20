@@ -1,0 +1,18 @@
+{% extends "cdp_db_site_app/base.html" %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'index_style.css' %}">
+    <link rel="stylesheet" href="{% static 'group_style.css' %}">
+
+    {#    Upper disc carousel    #}
+    {% include 'cdp_db_site_app/components/disc_carousel.html' %}
+
+    {#    Group view    #}
+    <div id="group-container" style="background-color: {{ group.color }}">
+        <a href="/{{ current_disc.position }}"><button class="group-button">&larr; CLEAR FILTER</button></a>
+        <h2 id="group-subtitle">Selected group:</h2>
+        <h1 id="group-title">{{ group.title }}</h1>
+        <button id="delete-group-button" class="group-button">&times; DELETE</button>
+    </div>
+
+{% endblock %}

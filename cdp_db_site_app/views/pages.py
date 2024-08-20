@@ -7,7 +7,7 @@ from cdp_db_site import settings
 from cdp_db_site_app.components.disc_carousel_context import disc_carousel_context
 from cdp_db_site_app.components.plaintext_context import plaintext_context
 from cdp_db_site_app.forms.DiscForm import DiscForm
-from cdp_db_site_app.models import Disc
+from cdp_db_site_app.models import Disc, Group
 from cdp_db_site_app.views.api import add_edit_disc
 
 
@@ -46,3 +46,9 @@ def edit(request, position):
     context = disc_carousel_context(position, False, "edit/")
     context["form"] = form
     return render(request, "cdp_db_site_app/edit.html", context)
+
+# Group list page
+def groupindex(request, groupid, position=1):
+    context = disc_carousel_context(position, scrollable = True, page=f"/group/{groupid}/disc")
+    context["group"] = Group.objects.get(id=groupid).as_json()
+    return render(request, "cdp_db_site_app/group.html", context)
