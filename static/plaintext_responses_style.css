@@ -1,0 +1,26 @@
+#content-body p {
+    color: black;
+    text-align: center;
+    font-size: xx-large;
+    font-weight: bold;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#content-body a {
+    text-align: center;
+}
+
+#content-body button {
+    padding-left: 4em;
+    padding-right: 4em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border-radius: 40px;
+    border: none;
+    font-size: x-large;
+    background-color: #a19e90;
+    font-weight: bold;
+    cursor: pointer;
+    width: 16em;
+}

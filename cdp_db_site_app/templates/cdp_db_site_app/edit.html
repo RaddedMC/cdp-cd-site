@@ -1,0 +1,60 @@
+{% extends "cdp_db_site_app/base.html" %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'index_style.css' %}">
+
+    {#    Upper disc carousel    #}
+    <div id="disc-carousel-container">
+
+        <div id="disc-carousel">
+            {% for disc in discs %}
+            <div class="disc {% if disc.title == "_" %} empty-disc {% endif %} {% if disc.position == current_disc.position %} active-disc {% endif %}">
+                <a >
+                    <img src="{{ disc.image }}" class="disc-image">
+                    <h2 class="disc-number">{{ disc.position }}</h2>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <link rel="stylesheet" href="{% static 'edit_style.css' %}">
+
+    {#   Disc edit title   #}
+    <div id="edit-title-container">
+        <hr>
+        <span>EDIT DISC #{{ current_disc.position }}</span>
+        <hr>
+    </div>
+
+    {#   Disc edit content   #}
+    <div id="edit-content">
+        <form action="/edit/{{ current_disc.position }}/submit" method="post" enctype="application/x-www-form-urlencoded">
+            {% csrf_token %}
+            {# Disc title #}
+            <div id="title-input-container" class="form-container">
+                <label for="title">Title:</label>
+                <input type="text" id="title-text" name="title">
+            </div>
+            {# Disc group #}
+            <div id="group-select-container" class="form-container">
+                <label for="group">Group:</label>
+                <select id="group-select" name="group">
+                    <option value="null">No group</option>
+                    {% for group in groups %}
+                        <option value="{{ group.id }}">{{ group.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {# Image upload #}
+            <div id="image-upload-container" class="form-container">
+                <label for="image">Image:</label>
+                <input type="file" accept="image/*" id="image-uploader" name="image">
+            </div>
+            {# Form submit #}
+            <input type="submit" value="SAVE" id="submit-button">
+        </form>
+    </div>
+
+{% endblock %}

@@ -27,7 +27,8 @@ body {
 }
 
 #content-body {
-    margin: 1em;
+    margin: auto;
     display: flex;
     flex-direction: column;
+    padding: 1em;
 }

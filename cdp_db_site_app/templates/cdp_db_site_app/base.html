@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CDP database app</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'base_style.css' %}">
+</head>
+<body>
+    <Header id="header-container">
+        <h1>Sony CD player database application</h1>
+        <p>{{ disc_count }} / {{ disc_capacity }} discs filled</p>
+    </Header>
+    <div id="content-body">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

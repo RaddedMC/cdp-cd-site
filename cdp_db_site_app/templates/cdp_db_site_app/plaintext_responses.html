@@ -1,0 +1,7 @@
+{% extends "cdp_db_site_app/base.html" %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'plaintext_responses_style.css' %}">
+    <p>{{ response_text }}</p>
+    <a href="{{ page_link }}"><button>Back to {{ page_name }}</button></a>
+{% endblock %}

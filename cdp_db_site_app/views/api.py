@@ -3,7 +3,9 @@ from json import JSONDecodeError
 
 import django.core.exceptions
 from django.http import HttpResponse, JsonResponse
+from django.template import loader
 
+from cdp_db_site import settings
 from cdp_db_site_app.models import Group, Disc
 
 ### --- LIST INFO --- ###
@@ -56,10 +58,7 @@ def remove_group(request, group):
 
 ### --- MANAGE DISCS --- ###
 # Add/Edit disc
-def add_edit_disc(request, position):
-    # Retrieve body data
-    body_as_json = json.loads(request.body)
-
+def add_edit_disc(position, title, image = None, group_id = None):
     # Is there a disc at that position?
     # If so use it to prefill fields
     try:
@@ -67,40 +66,66 @@ def add_edit_disc(request, position):
     except django.core.exceptions.ObjectDoesNotExist:
         previous_disc = Disc()
 
-    # Get the input position [MANDATORY]
-    previous_disc.position = position
+    # Set the position
+    disc = previous_disc
+    disc.position = position
 
-    # Get the new title [MANDATORY]
-    previous_disc.title = body_as_json["disc"]["title"]
+    # Set the new title [MANDATORY]
+    disc.title = title
 
-    # If it was input get the image
-    # Otherwise set it as null
+    # If there is an image, set it
+    # Otherwise set to null
+    disc.image = image
+
+    # If there is a group, set it
+    # Otherwise set to null
+    if not group_id or group_id == "null":
+        disc.group = None
+    else:
+        try:
+            disc.group = Group.objects.get(id=group_id)
+        except KeyError:
+            # A group that does not exist was given
+            disc.group = None
+
+    # Save the disc
+    disc.save()
+
+    return disc
+
+def json_add_edit_disc(request, position):
+    body = json.loads(request.body)
+    image = None
+    group = None
     try:
-        previous_disc.image = body_as_json["disc"]["image"]
-    except JSONDecodeError:
-        previous_disc.image = None
+        group = body["disc"]["group"]
     except KeyError:
-        previous_disc.image = None
-
-    # If it was input get the group id
-    # Otherwise set it as null
+        pass
     try:
-        previous_disc.group = Group.objects.get(id=body_as_json["disc"]["group"])
-    except JSONDecodeError:
-        previous_disc.group = None
+        image = body["disc"]["image"]
     except KeyError:
-        previous_disc.group = None
-
-    # Save the changes
-    previous_disc.save()
+        pass
 
     # Return the disc as JSON
-    return JsonResponse({"created_disc":previous_disc.as_json()})
+    return JsonResponse(
+        {
+            "created_disc": add_edit_disc(position, body["disc"]["title"], image, group).as_json()
+        }
+    )
 
 # Remove disc
 def remove_disc(request, position):
+    template = loader.get_template('cdp_db_site_app/plaintext_responses.html');
+    context = {
+        "disc_count": Disc.objects.all().count(),
+        "disc_capacity": settings.CDP_SIZE,
+        "response_text": "Disc deleted successfully",
+        "page_name": "home",
+        "page_link": f"/{position}"
+    }
+
     Disc.objects.get(position=position).delete()
-    return HttpResponse("Disc deleted successfully")
+    return HttpResponse(template.render(context, request))
 
 
 ### --- CONTROL COMMAND --- ###

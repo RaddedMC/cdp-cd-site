@@ -16,6 +16,17 @@
     align-items: center;
 }
 
+.disc-scroll-button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.disc-scroll-button-container a {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+}
+
 .disc {
     display: flex;
     flex-direction: row;
@@ -64,12 +75,18 @@
 }
 
 .slide-button {
-    font-size: 8em;
+    font-size: 4em;
     color: #93651f;
     border: none;
     background-color: #ccae82;
     border-radius: 0.2em;
     cursor: pointer;
+    width: 2em;
+}
+
+.big-scroll {
+    background-color: #cc8282;
+    color: #931f1f;
 }
 
 #group-container {
@@ -146,6 +163,7 @@
     background-color: #a19e90;
     font-weight: bold;
     cursor: pointer;
+    width: 100%;
 }
 
 #big-image img {

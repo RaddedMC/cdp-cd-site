@@ -1,9 +1,12 @@
 import django.core.exceptions
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
 from django.template import loader
 
 from cdp_db_site import settings
+from cdp_db_site_app.forms.DiscForm import DiscForm
 from cdp_db_site_app.models import Disc, Group
+from cdp_db_site_app.views.api import add_edit_disc
+
 
 def get_scroll_number(base_position, offset):
     pos = base_position+offset
@@ -13,8 +16,7 @@ def get_scroll_number(base_position, offset):
         return 300+pos
     else: return pos
 
-def index(request, position=1):
-
+def disc_carousel_page(request, position, template, form = None):
     # Populate disc information
     discs = []
 
@@ -23,7 +25,6 @@ def index(request, position=1):
         # Calculate the position of the 3 left and right
         pos = get_scroll_number(position, i)
 
-        print("Disc " + str(pos))
 
         # Retrieve a disc at position, if it exists
         try:
@@ -38,15 +39,11 @@ def index(request, position=1):
                 "group": None
             })
 
-        print("Disc original data")
-        print(disc)
 
         # If the disc has no image, set the empty image
         if not disc["image"]:
             disc["image"] = settings.HOMEPAGE_BLANK_DISC_ASSET
 
-        print("Disc after swapping image")
-        print(disc)
 
         # Retrieve full group info from disc group ID, if it has a group
         try:
@@ -58,23 +55,70 @@ def index(request, position=1):
             disc["group"] = None
 
         # Add to the disc list
-        print("Final disc")
-        print(disc)
         discs.append(disc)
-        print()
 
     # Retrieve all the groups as JSON
     groups = [group.as_json() for group in Group.objects.all()]
 
     # Populate the template
-    template = loader.get_template("cdp_db_site_app/index.html")
+    template = loader.get_template(f"cdp_db_site_app/{template}.html")
     context = {
+        "next_scrolls": [get_scroll_number(position, 4), get_scroll_number(position, -4),
+                         get_scroll_number(position, 50), get_scroll_number(position, -50)],
         "discs": discs,
         "groups": groups,
         "current_disc": discs[3],
         "disc_count": Disc.objects.all().count(),
         "disc_capacity": settings.CDP_SIZE
     }
+    if template == "edit":
+        context["form"] = form
 
     # Render and return the template
     return HttpResponse(template.render(context, request))
+
+
+def form_add_edit_disc(request, position):
+    form = QueryDict(request.body, mutable=False)
+    add_edit_disc(position, form["title"], form["image"], form["group"])
+
+    template = loader.get_template('cdp_db_site_app/plaintext_responses.html');
+    context = {
+        "disc_count": Disc.objects.all().count(),
+        "disc_capacity": settings.CDP_SIZE,
+        "response_text": "Disc updated successfully",
+        "page_name": "home",
+        "page_link": f"/{position}"
+    }
+
+    return HttpResponse(template.render(context, request))
+
+def index(request, position=1):
+    return disc_carousel_page(request, position, "index")
+
+def edit(request, position):
+    # If this is a POST we need to submit the form data
+    if request.method == "POST":
+        # Populate a form object with data
+        form = DiscForm(request.POST)
+        # Validate
+        if form.is_valid():
+            success_template = loader.get_template('cdp_db_site_app/plaintext_responses.html');
+            context = {
+                "disc_count": Disc.objects.all().count(),
+                "disc_capacity": settings.CDP_SIZE,
+                "response_text": "Disc updated successfully",
+                "page_name": "home",
+                "page_link": f"/{position}"
+            }
+
+            return HttpResponse(success_template.render(context, request))
+        else:
+            # If the form data is invalid we'll just send them the same form again
+            pass
+
+    # If this is a GET or any other method, we should create a blank form
+    else:
+        form = DiscForm()
+
+    return disc_carousel_page(request, position, "edit", form)
