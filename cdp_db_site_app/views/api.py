@@ -52,8 +52,17 @@ def edit_group(request, group):
 
 # Remove group
 def remove_group(request, group):
+    template = loader.get_template('cdp_db_site_app/plaintext_responses.html');
+    context = {
+        "disc_count": Disc.objects.all().count(),
+        "disc_capacity": settings.CDP_SIZE,
+        "response_text": "Group deleted successfully. Any games with this group will now be NO GROUP.",
+        "page_name": "home",
+        "page_link": f"/1"
+    }
+
     Group.objects.get(id=group).delete()
-    return HttpResponse("Group deleted successfully")
+    return HttpResponse(template.render(context, request))
 
 
 ### --- MANAGE DISCS --- ###
