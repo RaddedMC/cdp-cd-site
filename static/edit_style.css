@@ -82,6 +82,7 @@ form {
 
 #cancel-button {
     background-color: #cbaf92;
+    margin: 0;
 }
 
 #cancel-button-container {

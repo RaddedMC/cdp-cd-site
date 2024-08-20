@@ -4,35 +4,7 @@
     <link rel="stylesheet" href="{% static 'index_style.css' %}">
 
     {#    Upper disc carousel    #}
-    <div id="disc-carousel-container">
-        <div class="disc-scroll-button-container">
-            <a href="/{{ next_scrolls.1 }}">
-                <button class="slide-button">&triangleleft;</button>
-            </a>
-            <a href="/{{ next_scrolls.3 }}">
-                <button class="slide-button big-scroll">&triangleleft;&triangleleft;</button>
-            </a>
-        </div>
-
-        <div id="disc-carousel">
-            {% for disc in discs %}
-            <div class="disc {% if disc.title == "_" %} empty-disc {% endif %} {% if disc.position == current_disc.position %} active-disc {% endif %}">
-                <a href="/{{ disc.position }}">
-                    <img src="{{ disc.image }}" class="disc-image">
-                    <h2 class="disc-number">{{ disc.position }}</h2>
-                </a>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="disc-scroll-button-container">
-            <a href="/{{ next_scrolls.0 }}">
-                <button class="slide-button">&triangleright;</button>
-            </a>
-            <a href="/{{ next_scrolls.2 }}">
-                <button class="slide-button big-scroll">&triangleright;&triangleright;</button>
-            </a>
-        </div>
-    </div>
+    {% include 'cdp_db_site_app/components/disc_carousel.html' %}
 
     {#    Group tab bar    #}
     <div id="group-container">

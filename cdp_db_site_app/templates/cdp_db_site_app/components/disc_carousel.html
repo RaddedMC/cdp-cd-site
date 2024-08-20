@@ -1,0 +1,38 @@
+<div id="disc-carousel-container">
+    {% if scrollable %}
+    <div class="disc-scroll-button-container">
+        <a href="{{ page_prefix }}/{{ next_scrolls.1 }}">
+            <button class="slide-button">&triangleleft;</button>
+        </a>
+        <a href="{{ page_prefix }}/{{ next_scrolls.3 }}">
+            <button class="slide-button big-scroll">&triangleleft;&triangleleft;</button>
+        </a>
+    </div>
+    {% endif %}
+
+    <div id="disc-carousel">
+        {% for disc in discs %}
+        <div class="disc {% if disc.title == "_" %} empty-disc {% endif %} {% if disc.position == current_disc.position %} active-disc {% endif %}">
+            {% if scrollable %}
+            <a href="{{ page_prefix }}/{{ disc.position }}">
+            {% endif %}
+                <img src="{{ disc.image }}" class="disc-image">
+                <h2 class="disc-number">{{ disc.position }}</h2>
+            {% if scrollable %}
+            </a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if scrollable %}
+    <div class="disc-scroll-button-container">
+        <a href="{{ page_prefix }}/{{ next_scrolls.0 }}">
+            <button class="slide-button">&triangleright;</button>
+        </a>
+        <a href="{{ page_prefix }}/{{ next_scrolls.2 }}">
+            <button class="slide-button big-scroll">&triangleright;&triangleright;</button>
+        </a>
+    </div>
+    {% endif %}
+</div>
