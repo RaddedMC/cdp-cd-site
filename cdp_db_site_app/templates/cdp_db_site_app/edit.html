@@ -53,8 +53,9 @@
                 <input type="file" accept="image/*" id="image-uploader" name="image">
             </div>
             {# Form submit #}
-            <input type="submit" value="SAVE" id="submit-button">
+            <input type="submit" value="SAVE" id="submit-button" class="edit-page-button">
         </form>
+        <a id="cancel-button-container" href="/{{ current_disc.position }}"><button class="edit-page-button" id="cancel-button">CANCEL</button></a>
     </div>
 
 {% endblock %}

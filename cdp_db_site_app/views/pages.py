@@ -7,7 +7,9 @@ from cdp_db_site_app.forms.DiscForm import DiscForm
 from cdp_db_site_app.models import Disc, Group
 from cdp_db_site_app.views.api import add_edit_disc
 
-
+### --- HELPERS --- ###
+# Calculate what position the disc player is in given a base position and offset
+# Essentially just account for the circular nature of the disc tray
 def get_scroll_number(base_position, offset):
     pos = base_position+offset
     if pos > 300:
@@ -16,6 +18,7 @@ def get_scroll_number(base_position, offset):
         return 300+pos
     else: return pos
 
+# Pre-fill the disc carousel data and return a page containing a disc carousel
 def disc_carousel_page(request, position, template, form = None):
     # Populate disc information
     discs = []
@@ -78,24 +81,12 @@ def disc_carousel_page(request, position, template, form = None):
     return HttpResponse(template.render(context, request))
 
 
-def form_add_edit_disc(request, position):
-    form = QueryDict(request.body, mutable=False)
-    add_edit_disc(position, form["title"], form["image"], form["group"])
-
-    template = loader.get_template('cdp_db_site_app/plaintext_responses.html');
-    context = {
-        "disc_count": Disc.objects.all().count(),
-        "disc_capacity": settings.CDP_SIZE,
-        "response_text": "Disc updated successfully",
-        "page_name": "home",
-        "page_link": f"/{position}"
-    }
-
-    return HttpResponse(template.render(context, request))
-
+### --- PAGES --- ###
+# Main disc list page
 def index(request, position=1):
     return disc_carousel_page(request, position, "index")
 
+# Disc edit page
 def edit(request, position):
     # If this is a POST we need to submit the form data
     if request.method == "POST":
@@ -122,3 +113,19 @@ def edit(request, position):
         form = DiscForm()
 
     return disc_carousel_page(request, position, "edit", form)
+
+# [OLD/remove me] sent on completion of form
+def form_add_edit_disc(request, position):
+    form = QueryDict(request.body, mutable=False)
+    add_edit_disc(position, form["title"], form["image"], form["group"])
+
+    template = loader.get_template('cdp_db_site_app/plaintext_responses.html');
+    context = {
+        "disc_count": Disc.objects.all().count(),
+        "disc_capacity": settings.CDP_SIZE,
+        "response_text": "Disc updated successfully",
+        "page_name": "home",
+        "page_link": f"/{position}"
+    }
+
+    return HttpResponse(template.render(context, request))
