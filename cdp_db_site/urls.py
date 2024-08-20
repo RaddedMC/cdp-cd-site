@@ -14,9 +14,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-# from django.contrib import admin
+from django.conf.urls.static import static
+from django.template.defaulttags import url
 from django.urls import path
+from django.views.static import serve
 
+from cdp_db_site import settings
 from cdp_db_site_app import views
 
 urlpatterns = [
@@ -35,4 +38,4 @@ urlpatterns = [
     path("<int:position>", views.pages.index, name="Homepage, but scrolled to a position"),
 
     path("edit/<int:position>", views.pages.edit, name="Edit page for a specific disc"),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

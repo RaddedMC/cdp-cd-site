@@ -38,7 +38,7 @@
             {% if current_disc.title != "_" %}
                 <button>RETRIEVE</button>
             {% endif %}
-            <a href="/edit/{{ current_disc.position }}"><button>EDIT</button></a>
+            <a href="/edit/{{ current_disc.position }}"><button>{% if current_disc.title != "_" %}EDIT{% else %}ADD{% endif %}</button></a>
             {% if current_disc.title != "_" %}
                 <a href="/discs/remove/{{ current_disc.position }}"><button>DELETE</button></a>
             {% endif %}

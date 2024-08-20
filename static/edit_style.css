@@ -43,7 +43,7 @@ form {
     text-align: center;
 }
 
-.form-container {
+form div {
     margin: 1em;
     font-size: large;
     background-color: #c5bcb3;
@@ -56,11 +56,11 @@ form {
     align-items: center;
 }
 
-.form-container label {
+form div label {
     font-weight: bolder;
 }
 
-.form-container input, .form-container select, #image-uploader {
+form div input, form div select, form div input {
     margin-left: 1em;
     height: 1.5em;
     font-size: large;

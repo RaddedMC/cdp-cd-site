@@ -18,35 +18,15 @@
     {#   Disc edit content   #}
     <div id="edit-content">
 
-        {% csrf_token %}
-        {{ form }}
+        {#    Component-injected form    #}
+        {#    TODO: errorlist needs styling    #}
+        <form action="/edit/{{ current_disc.position }}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="SAVE" id="submit-button" class="edit-page-button">
+        </form>
 
-        {#    Old form. Styling from here needs to be moved to the new form    #}
-{#        <form action="/edit/{{ current_disc.position }}/submit" method="post" enctype="application/x-www-form-urlencoded">#}
-{#            {% csrf_token %}#}
-            {# Disc title #}
-{#            <div id="title-input-container" class="form-container">#}
-{#                <label for="title">Title:</label>#}
-{#                <input type="text" id="title-text" name="title">#}
-{#            </div>#}
-            {# Disc group #}
-{#            <div id="group-select-container" class="form-container">#}
-{#                <label for="group">Group:</label>#}
-{#                <select id="group-select" name="group">#}
-{#                    <option value="null">No group</option>#}
-{#                    {% for group in groups %}#}
-{#                        <option value="{{ group.id }}">{{ group.title }}</option>#}
-{#                    {% endfor %}#}
-{#                </select>#}
-{#            </div>#}
-            {# Image upload #}
-{#            <div id="image-upload-container" class="form-container">#}
-{#                <label for="image">Image:</label>#}
-{#                <input type="file" accept="image/*" id="image-uploader" name="image">#}
-{#            </div>#}
-            {# Form submit #}
-{#            <input type="submit" value="SAVE" id="submit-button" class="edit-page-button">#}
-{#        </form>#}
+        {#    Cancel button    #}
         <a id="cancel-button-container" href="/{{ current_disc.position }}"><button class="edit-page-button" id="cancel-button">CANCEL</button></a>
     </div>
 
