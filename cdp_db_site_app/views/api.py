@@ -62,7 +62,7 @@ def remove_group(request, group):
 
 ### --- MANAGE DISCS --- ###
 # Add/Edit disc
-def add_edit_disc(position, title, image = None, group_obj = None):
+def add_edit_disc(position, title, image = None, group_obj = None, change_image = False):
     # Is there a disc at that position?
     # If so use it to prefill fields
     try:
@@ -79,7 +79,9 @@ def add_edit_disc(position, title, image = None, group_obj = None):
 
     # If there is an image, set it
     # Otherwise set to null
-    disc.image = image
+    # Skip this section if keep image is set
+    if change_image:
+        disc.image = image
 
     # If there is a group, set it
     # Otherwise set to null

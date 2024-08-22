@@ -48,15 +48,18 @@ class Disc(models.Model):
 
     def _check_image_change(self):
         try:
-            # Don't run if the SAVED version of me has no image
+            # Retrieve my past self
             saved_self = Disc.objects.get(position = self.position)
-            if not saved_self.image:
-                print("I don't yet have an image!")
+            # Has my image changed?
+            print(saved_self.image.name)
+            if saved_self.image.name == "":
                 return
+            if saved_self.image.name == self.image.name:
+                # If it has not changed, do nothing
+                return
+            else:
+                # Image was changed, or removed. Remove the old one!
+                os.remove(settings.MEDIA_ROOT / saved_self.image.name)
         except django.core.exceptions.ObjectDoesNotExist:
-            # I don't exist yet! No need to check for stray past images.
-            print("I don't exist!")
+            # I don't exist yet! No need to check for stray past images.\
             return
-
-        # Image was changed. Remove the old one!
-        os.remove(settings.MEDIA_ROOT / saved_self.image.name)

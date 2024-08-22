@@ -64,7 +64,7 @@ form div input, form div select, form div input {
     margin-left: 1em;
     height: 1.5em;
     font-size: large;
-    width: 100%
+    width: 100%;
 }
 
 .edit-page-button {
@@ -88,4 +88,8 @@ form div input, form div select, form div input {
 #cancel-button-container {
     margin-left: auto;
     margin-right: auto;
+}
+
+#id_changeimage {
+    width: 50%;
 }

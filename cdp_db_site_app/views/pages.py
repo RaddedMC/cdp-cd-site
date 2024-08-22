@@ -27,7 +27,8 @@ def edit(request, position):
         # If not, they will be returned to the form page
         if form.is_valid():
             # Handle saving disc
-            add_edit_disc(position, form.cleaned_data["title"], form.cleaned_data["image"], form.cleaned_data["group"])
+            add_edit_disc(position, form.cleaned_data["title"], form.cleaned_data["image"], form.cleaned_data["group"], form.cleaned_data[
+                "changeimage"])
             return render(request, 'cdp_db_site_app/plaintext_responses.html', plaintext_context("Disc changed successfully", "home", f"/{position}"))
 
     # If this is a GET or any other method, we are starting with a fresh form
@@ -44,7 +45,7 @@ def edit(request, position):
         except django.core.exceptions.ObjectDoesNotExist:
             form = DiscForm()
 
-    print(form)
+    #print(form)
     context = disc_carousel_context(position, False, "edit/")
     context["form"] = form
     return render(request, "cdp_db_site_app/edit.html", context)
