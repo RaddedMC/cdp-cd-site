@@ -18,20 +18,20 @@ def get_scroll_number(base_position, offset, closest_disc = False):
     if closest_disc:
         # If going up
         if offset > 0:
-            print(f"We went up! We need to find the disc with the lowest number from {base_position} to {settings.CDP_SIZE}")
+            # print(f"We went up! We need to find the disc with the lowest number from {base_position} to {settings.CDP_SIZE}")
             # We need to find the disc with the lowest number from base_position to max
             discs_above = Disc.objects.filter(position__gt=base_position).order_by("position")
-            print("The discs in that range: ", discs_above)
+            # print("The discs in that range: ", discs_above)
             if len(discs_above) > 0:
-                print(f"Found a disc at position {discs_above[0].position}")
+                # print(f"Found a disc at position {discs_above[0].position}")
                 return discs_above[0].position
             # If there is none, overscroll to find the disc with the lowest number from 0 to (ex)base_position
             else:
-                print(f"No disc above! Checking in overscroll...")
+                # print(f"No disc above! Checking in overscroll...")
                 discs_above_overscroll = Disc.objects.filter(position__gt=0, position__lt=base_position).order_by("position")
-                print("The discs in overscroll: ", discs_above_overscroll)
+                # print("The discs in overscroll: ", discs_above_overscroll)
                 if len(discs_above_overscroll) > 0:
-                    print(f"Found a disc at position {discs_above_overscroll[0].position}")
+                    # print(f"Found a disc at position {discs_above_overscroll[0].position}")
                     return discs_above_overscroll[0].position
             # If none there, return pos
         # If going down

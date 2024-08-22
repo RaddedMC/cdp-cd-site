@@ -62,7 +62,7 @@ def remove_group(request, group):
 
 ### --- MANAGE DISCS --- ###
 # Add/Edit disc
-def add_edit_disc(position, title, image = None, group_id = None):
+def add_edit_disc(position, title, image = None, group_obj = None):
     # Is there a disc at that position?
     # If so use it to prefill fields
     try:
@@ -83,14 +83,10 @@ def add_edit_disc(position, title, image = None, group_id = None):
 
     # If there is a group, set it
     # Otherwise set to null
-    if not group_id or group_id == "null":
+    if not group_obj or group_obj == "null":
         disc.group = None
     else:
-        try:
-            disc.group = Group.objects.get(id=group_id)
-        except KeyError:
-            # A group that does not exist was given
-            disc.group = None
+        disc.group = group_obj
 
     # Save the disc
     disc.save()

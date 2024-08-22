@@ -37,17 +37,16 @@ def edit(request, position):
             disc = Disc.objects.get(position=position)
             form = DiscForm({
                 "title": disc.title,
-                "group": disc.group.pk if disc.group != None else "null",
+                "group": disc.group.pk if disc.group != None else None,
                 "image": disc.image.name
             })
         # If the disc does not exist, create a blank form
         except django.core.exceptions.ObjectDoesNotExist:
             form = DiscForm()
 
+    print(form)
     context = disc_carousel_context(position, False, "edit/")
     context["form"] = form
-    #TODO: BUG: When groups change, new groups don't show in the dropdown
-    # Unless server restarts
     return render(request, "cdp_db_site_app/edit.html", context)
 
 # Group list page
@@ -92,7 +91,7 @@ def groupchange(request, groupid=-1):
             existing_group = Group.objects.get(id=groupid)
             form = GroupForm({
                 "title": existing_group.title,
-                "group": existing_group.color
+                "color": existing_group.color
             })
 
     context = dict(titlebar_context(), **{

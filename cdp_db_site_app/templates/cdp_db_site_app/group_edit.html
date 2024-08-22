@@ -2,27 +2,30 @@
 {% block content %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'index_style.css' %}">
+    <link rel="stylesheet" href="{% static 'group_edit_style.css' %}">
 
-    <h1>Add a group</h1>
+    <h1 id="group-edit-title">{% if groupid == -1 %}Add{% else %}Edit{% endif %} a group</h1>
 
-    <div id="form-edit-content">
-        <form action="{% if groupid == -1 %}/group/add{% else %}/group/{{ groupid }}/edit{% endif %}" method="post">
-            {% csrf_token %}
-            <div>
-                {{ form.title.errors }}
-                {{ form.title.label_tag }}
-                {{ form.title }}
-            </div>
-            <div>
-                {{ form.color.errors }}
-                {{ form.color.label_tag }}
-                {#    TODO: fill name programmatically    #}
-                <input type="color" name="color" maxlength="7" required id="{{ form.color.id_for_label }}"/>
-            </div>
-            <input type="submit" value="SAVE" id="submit-button" class="edit-page-button">
-        </form>
+    <div id="split-container">
+        <div id="form-edit-content">
+            {#      TODO: errorlist needs styling      #}
+            <form action="{% if groupid == -1 %}/group/add{% else %}/group/{{ groupid }}/edit{% endif %}" method="post">
+                {% csrf_token %}
+                <div>
+                    {{ form.title.errors }}
+                    {{ form.title.label_tag }}
+                    {{ form.title }}
+                </div>
+                <div>
+                    {{ form.color.errors }}
+                    {{ form.color.label_tag }}
+                    <input type="color" name="color" maxlength="7" value="{{ form.color.value }}" required id="{{ form.color.id_for_label }}"/>
+                </div>
+                <input type="submit" value="SAVE" id="submit-button" class="edit-page-button">
+            </form>
 
-        <a id="cancel-button-container" href="/1"><button class="edit-page-button" id="cancel-button">CANCEL</button></a>
+            <a id="cancel-button-container" href="/1"><button class="edit-page-button" id="cancel-button">CANCEL</button></a>
+        </div>
     </div>
 
 {% endblock %}

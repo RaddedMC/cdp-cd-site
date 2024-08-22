@@ -13,13 +13,13 @@ class Group(models.Model):
     title = models.CharField(max_length=200)
     color = ColorField(format="hex")
     def __str__(self):
-        return f"Group #{self.id}: {self.title}"
+        return self.title
 
     def as_json(self):
         return {"id": self.id, "title": self.title, "color": self.color}
 
 
-# Disc in the playercrooll
+# Disc in the player
 class Disc(models.Model):
     position = models.PositiveSmallIntegerField(primary_key=True,
                                                 validators=[MinValueValidator(1), MaxValueValidator(settings.CDP_SIZE)])
