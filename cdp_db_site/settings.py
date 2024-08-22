@@ -25,6 +25,7 @@ SECRET_KEY = 'django-insecure-8xws)6v7m)%bae$%$l6q9w=mev71^9bts7sz)hmk_tshz8osg6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# FOR USER: Please set these to your desired IPs as in README.MD
 ALLOWED_HOSTS = ["10.0.0.12", "localhost", "127.0.0.1"]
 
 
@@ -132,12 +133,12 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# TODO: Change these when deploying this application!
+# FOR USER: Change these when deploying this application!
 # App-specific settings
 CDP_SIZE = 300  # Set the number of discs that your player can support
 CDP_CONTROL_REDIR_URL = "https://youtu.be/dQw4w9WgXcQ"  # Set the redirect URL for activating the CD player with IR controls
 HOMEPAGE_DISC_COUNT = 7 # Set this to whatever you like! Must be an odd number or else weird things will happen
-# TODO: implement the above
+# FOR USER: implement the above
 HOMEPAGE_BLANK_DISC_ASSET = "/static/no-image.png"
 HOMEPAGE_NO_DISC_ASSET= "/static/no-disc.png"
-# TODO: Move this asset to local staticfiles
+# FOR USER: Move this asset to local staticfiles
