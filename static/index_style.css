@@ -110,6 +110,7 @@
     flex-direction: row;
     margin-left: auto;
     margin-right: auto;
+    overflow-x: scroll;
 }
 
 .group-button {
@@ -123,6 +124,9 @@
     font-weight: bold;
     cursor: pointer;
     height: 2em;
+    white-space: nowrap;
+    margin-bottom: 1em;
+    margin-top: 1em;
 }
 
 #new-group-button {
