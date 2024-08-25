@@ -6,6 +6,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 from cdp_db_site import settings
+from cdp_db_site_app.misc.corner_pin_effect import corner_pin_effect
 
 
 # Disc group as defined in the player.
@@ -41,25 +42,39 @@ class Disc(models.Model):
     def save(self, *args, **kwargs):
         self._check_image_change()
         super().save(*args, **kwargs)
+        self._check_image_transforms()
+
+
     # When disc is deleted, check if image is being used anywhere else. If not, delete it!
     def delete(self, *args, **kwargs):
         self._check_image_change()
         super().delete(*args, **kwargs)
+
+    def _check_image_transforms(self):
+        if not self.image:
+            return
+        else:
+            filename = settings.MEDIA_ROOT / self.image.name
+            if not os.path.isfile(str(filename)[0:str(filename).find(".")] + "_left" + str(filename)[str(filename).find("."):]):
+                corner_pin_effect(str(filename))
 
     def _check_image_change(self):
         try:
             # Retrieve my past self
             saved_self = Disc.objects.get(position = self.position)
             # Has my image changed?
-            print(saved_self.image.name)
             if saved_self.image.name == "":
                 return
             if saved_self.image.name == self.image.name:
                 # If it has not changed, do nothing
                 return
             else:
-                # Image was changed, or removed. Remove the old one!
-                os.remove(settings.MEDIA_ROOT / saved_self.image.name)
+                # Image was changed, or removed. Remove the old one, and its transforms!
+                filename = settings.MEDIA_ROOT / saved_self.image.name
+                print(filename)
+                os.remove(filename)
+                os.remove(str(filename)[0:str(filename).find(".")] + "_left" + str(filename)[str(filename).find("."):])
+                os.remove(str(filename)[0:str(filename).find(".")] + "_right" + str(filename)[str(filename).find("."):])
         except django.core.exceptions.ObjectDoesNotExist:
             # I don't exist yet! No need to check for stray past images.\
             return

@@ -30,7 +30,9 @@
                     {% if current_disc.group == None %}
                         NO GROUP
                     {% else %}
-                        <button class="group-button" style="background-color: {{ current_disc.group.color }}"> {{ current_disc.group.title }}</button>
+                        <a href="/group/{{ current_disc.group.id }}/disc/{{ current_disc.position }}">
+                            <button class="group-button" style="background-color: {{ current_disc.group.color }}"> {{ current_disc.group.title }}</button>
+                        </a>
                     {% endif %}
                 </h2>
                 <h2 id="text-discnum">Disc #: {{ current_disc.position }}</h2>

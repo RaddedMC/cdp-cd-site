@@ -1,0 +1,1 @@
+from cdp_db_site_app.misc import corner_pin_effect

@@ -9,8 +9,8 @@
 #disc-carousel {
     display: flex;
     flex-direction: row;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
+    padding: 0 1em;
     justify-content: center;
     overflow-x: hidden;
     align-items: center;
@@ -59,9 +59,11 @@
 }
 
 .disc-image {
-    width: 100px;
-    height: 180px;
+    width: 120px;
+    height: 200px;
     opacity: 60%;
+    margin-left: -1em;
+    margin-right: -1em;
 }
 
 .active-disc .disc-image {

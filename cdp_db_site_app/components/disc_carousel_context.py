@@ -62,8 +62,8 @@ def disc_carousel_context(position, scrollable, page = ""):
     # Populate disc information
     discs = []
 
-    # Grab 7 discs (current position plus three left and three right
-    for i in range(-3, 4):
+    # Grab 9 discs (current position plus three left and three right
+    for i in range(-4, 5):
         # Calculate the position of the 3 left and right
         pos = get_scroll_number(position, i)
 
@@ -96,6 +96,11 @@ def disc_carousel_context(position, scrollable, page = ""):
         except django.core.exceptions.ObjectDoesNotExist:
             disc["group"] = None
 
+        if i < 0:
+            disc["image"] = disc["image"][0:disc["image"].find(".")] + "_left" + disc["image"][disc["image"].find("."):]
+        elif i > 0 :
+            disc["image"] = disc["image"][0:disc["image"].find(".")] + "_right" + disc["image"][disc["image"].find("."):]
+
         # Add to the disc list
         discs.append(disc)
 
@@ -108,7 +113,7 @@ def disc_carousel_context(position, scrollable, page = ""):
                          get_scroll_number(position, 50), get_scroll_number(position, -50)],
         "discs": discs,
         "groups": groups,
-        "current_disc": discs[3],
+        "current_disc": discs[4],
         "page_prefix": page,
         "scrollable": scrollable
     })

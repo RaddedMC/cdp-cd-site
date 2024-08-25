@@ -16,4 +16,23 @@
         <a href="/groups/remove/{{ group.id }}"><button id="delete-group-button" class="group-button">&times; DELETE</button></a>
     </div>
 
+    {# Disc info #}
+    <div id="info-container">
+        <div id="text-panel">
+            <h2 id="text-title">Title: {{ current_disc.title }}</h2>
+            <h2 id="text-group">Group:
+                <button class="group-button" style="background-color: {{ current_disc.group.color }}"> {{ current_disc.group.title }}</button>
+            </h2>
+            <h2 id="text-discnum">Disc #: {{ current_disc.position }}</h2>
+        </div>
+        <div id="button-panel">
+            <button>RETRIEVE</button>
+            <a href="/edit/{{ current_disc.position }}"><button>EDIT</button></a>
+            <a href="/discs/remove/{{ current_disc.position }}"><button>DELETE</button></a>
+        </div>
+        <div id="big-image">
+            <img src="{{ current_disc.image }}">
+        </div>
+    </div>
+
 {% endblock %}
