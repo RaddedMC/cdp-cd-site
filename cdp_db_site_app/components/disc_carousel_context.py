@@ -96,6 +96,7 @@ def disc_carousel_context(position, scrollable, page = ""):
         except django.core.exceptions.ObjectDoesNotExist:
             disc["group"] = None
 
+        # Switch the image to a transform if necessary
         if i < 0:
             disc["image"] = disc["image"][0:disc["image"].find(".")] + "_left" + disc["image"][disc["image"].find("."):]
         elif i > 0 :
