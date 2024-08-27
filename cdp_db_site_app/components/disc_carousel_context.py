@@ -58,7 +58,7 @@ def get_scroll_number(base_position, offset, closest_disc = False):
     return pos
 
 # Pre-fill the disc carousel data and return a page containing a disc carousel
-def disc_carousel_context(position, scrollable, page = ""):
+def disc_carousel_context(position, scrollable, page = "", searchable = False):
     # Populate disc information
     discs = []
 
@@ -109,7 +109,7 @@ def disc_carousel_context(position, scrollable, page = ""):
     groups = [group.as_json() for group in Group.objects.all()]
 
     # Populate the template
-    context = dict(titlebar_context(),**{
+    context = dict(titlebar_context(searchable=searchable),**{
         "next_scrolls": [get_scroll_number(position, 4, closest_disc = True), get_scroll_number(position, -4, closest_disc = True),
                          get_scroll_number(position, 50), get_scroll_number(position, -50)],
         "discs": discs,

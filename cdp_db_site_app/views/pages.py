@@ -15,7 +15,7 @@ from cdp_db_site_app.views.api import add_edit_disc
 
 # Main disc list page
 def index(request, position=1):
-    return render(request, "cdp_db_site_app/index.html", disc_carousel_context(position, scrollable = True))
+    return render(request, "cdp_db_site_app/index.html", disc_carousel_context(position, scrollable = True, searchable = True))
 
 # Disc edit page
 def edit(request, position):
@@ -137,7 +137,7 @@ def groupindex(request, groupid, position=1):
                 current_disc = disc_json
             discs_json.append(disc_json)
 
-    context = dict(titlebar_context(),**{
+    context = dict(titlebar_context(searchable=True),**{
         "next_scrolls": next_scrolls,
         "discs": discs_json,
         "current_disc": current_disc,
