@@ -10,7 +10,7 @@
     {#    Group view    #}
     <div id="group-container" style="background-color: {{ group.color }}">
         <a href="/{{ current_disc.position }}"><button class="group-button">&larr; CLEAR FILTER</button></a>
-        <h2 id="group-subtitle">Selected group:</h2>
+        <h2 id="group-subtitle">{{ group_length }} discs in group</h2>
         <h1 id="group-title">{{ group.title }}</h1>
         <a href="/group/{{ group.id }}/edit"><button id="edit-group-button" class="group-button">~ EDIT</button></a>
         <a href="/groups/remove/{{ group.id }}"><button id="delete-group-button" class="group-button">&times; DELETE</button></a>

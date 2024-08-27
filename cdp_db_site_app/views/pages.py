@@ -65,40 +65,86 @@ def groupindex(request, groupid, position=1):
     if len(discs_in_group.filter(position=position)) == 0:
         position = discs_in_group[0].position
 
+    # First find the index of the disc in the current position to set up next_scrolls
+    current_disc_index = 0
+    for index, item in enumerate(discs_in_group):
+        if item.position == position:
+            current_disc_index = index
+            break
+
+    next_scrolls = [
+        discs_in_group[(current_disc_index + 1) % len(discs_in_group)].position,
+        discs_in_group[(current_disc_index - 1) % len(discs_in_group)].position,
+        discs_in_group[(current_disc_index + 50) % len(discs_in_group)].position,
+        discs_in_group[(current_disc_index - 50) % len(discs_in_group)].position,
+    ]
+
     # If there are 9 discs in the group, just return each disc.
     discs_json = []
-    for disc in discs_in_group:
-        disc_json = disc.as_json()
+    if len(discs_in_group) <= 9:
+        for disc in discs_in_group:
+            disc_json = disc.as_json()
 
-        # If the disc has no image, set the empty image
-        if not disc_json["image"]:
-            disc_json["image"] = settings.HOMEPAGE_BLANK_DISC_ASSET
+            # If the disc has no image, set the empty image
+            if not disc_json["image"]:
+                disc_json["image"] = settings.HOMEPAGE_BLANK_DISC_ASSET
 
-        # Retrieve full group info from disc group ID, if it has a group
-        try:
-            disc_group = Group.objects.get(id=disc_json["group"])
-            disc_json["group"] = disc_group.as_json()
+            # Retrieve full group info from disc group ID, if it has a group
+            try:
+                disc_group = Group.objects.get(id=disc_json["group"])
+                disc_json["group"] = disc_group.as_json()
 
-        # If it is a null group, set the disc JSON group to null
-        except django.core.exceptions.ObjectDoesNotExist:
-            disc_json["group"] = None
+            # If it is a null group, set the disc JSON group to null
+            except django.core.exceptions.ObjectDoesNotExist:
+                disc_json["group"] = None
 
-        # Switch the image to a transform if necessary
-        if disc.position < position:
-            disc_json["image"] = disc_json["image"][0:disc_json["image"].find(".")] + "_left" + disc_json["image"][disc_json["image"].find("."):]
-        elif disc.position > position:
-            disc_json["image"] = disc_json["image"][0:disc_json["image"].find(".")] + "_right" + disc_json["image"][
-                                                                                  disc_json["image"].find("."):]
-        else:
-            current_disc = disc_json
-        discs_json.append(disc_json)
+            # Switch the image to a transform if necessary
+            if disc.position < position:
+                disc_json["image"] = disc_json["image"][0:disc_json["image"].find(".")] + "_left" + disc_json["image"][disc_json["image"].find("."):]
+            elif disc.position > position:
+                disc_json["image"] = disc_json["image"][0:disc_json["image"].find(".")] + "_right" + disc_json["image"][
+                                                                                      disc_json["image"].find("."):]
+            else:
+                current_disc = disc_json
+            discs_json.append(disc_json)
+
+
+    # If there are more than 9 discs, retrieve the current discs and 4 discs before/after.
+    # Not the DRYest approach, but it's fine
+    else:
+        for i in range(-4, 5):
+            disc_json = discs_in_group[(i + current_disc_index) % len(discs_in_group)].as_json()
+
+            # If the disc has no image, set the empty image
+            if not disc_json["image"]:
+                disc_json["image"] = settings.HOMEPAGE_BLANK_DISC_ASSET
+
+            # Retrieve full group info from disc group ID, if it has a group
+            try:
+                disc_group = Group.objects.get(id=disc_json["group"])
+                disc_json["group"] = disc_group.as_json()
+
+            # If it is a null group, set the disc JSON group to null
+            except django.core.exceptions.ObjectDoesNotExist:
+                disc_json["group"] = None
+
+            # Switch the image to a transform if necessary
+            if i < 0:
+                disc_json["image"] = disc_json["image"][0:disc_json["image"].find(".")] + "_left" + disc_json["image"][disc_json["image"].find("."):]
+            elif i > 0:
+                disc_json["image"] = disc_json["image"][0:disc_json["image"].find(".")] + "_right" + disc_json["image"][disc_json["image"].find("."):]
+            else:
+                current_disc = disc_json
+            discs_json.append(disc_json)
+
     context = dict(titlebar_context(),**{
-        "next_scrolls": [1,2,3,4],
+        "next_scrolls": next_scrolls,
         "discs": discs_json,
         "current_disc": current_disc,
         "group": current_disc["group"],
         "page_prefix": f"/group/{groupid}/disc",
-        "scrollable": True
+        "scrollable": True,
+        "group_length": len(discs_in_group)
     })
 
     return render(request, "cdp_db_site_app/group.html", context)
