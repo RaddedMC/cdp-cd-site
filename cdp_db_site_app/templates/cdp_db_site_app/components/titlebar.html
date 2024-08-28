@@ -2,8 +2,9 @@
     <h1>Sony CD player database application</h1>
     {% if searchable %}
     <div id="search-container">
-        <form action="">
-            <input type="text" placeholder="Search here..." name="search" id="search-text">
+        <form action="/search">
+            <input type="text" placeholder="Search {% if group %}from {{ group.title }}{% else %}all discs{% endif %}..." name="search" id="search-text">
+            <input type="hidden" name="group" value="{{ group.id }}">
             <button type="submit" id="search-button">Search</button>
         </form>
     </div>

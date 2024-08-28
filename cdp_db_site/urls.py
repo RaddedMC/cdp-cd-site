@@ -15,9 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf.urls.static import static
-from django.template.defaulttags import url
 from django.urls import path
-from django.views.static import serve
 
 from cdp_db_site import settings
 from cdp_db_site_app import views
