@@ -1,0 +1,30 @@
+{% extends "cdp_db_site_app/base.html" %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'index_style.css' %}">
+    <link rel="stylesheet" href="{% static 'search_style.css' %}">
+
+    <div id="search-title-container">
+        <a href="/{% if group_filter %}group/{{ group_filter.id }}{% endif %}">
+            <button id="back-button">&larr; Back</button>
+        </a>
+        <h2>Search for <i>{{ search_query }}</i></h2>
+        {% if group_filter %}
+            <p>in group</p>
+            <button class="group-button" style="background-color: {{ group_filter.color }}">{{ group_filter.title }}</button>
+        {% endif %}
+    </div>
+
+    <div id="search-result-container">
+        {% for disc in disc_result_json %}
+        <a class="search-result" href="/{% if group_filter %}group/{{ group_filter.id }}/disc/{% endif %}{{ disc.position }}">
+            <div>
+                <img src="{{ disc.image }}" class="search-result-image">
+                <h2>{{ disc.title }}</h2>
+                <h3>Position #{{ disc.position }}</h3>
+                <button class="group-button" style="background-color: {{ disc.group.color }}">{{ disc.group.title }}</button>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+{% endblock %}
