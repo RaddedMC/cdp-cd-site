@@ -137,8 +137,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # App-specific settings
 CDP_SIZE = 300  # Set the number of discs that your player can support
 CDP_CONTROL_REDIR_URL = "https://youtu.be/dQw4w9WgXcQ"  # Set the redirect URL for activating the CD player with IR controls
-HOMEPAGE_DISC_COUNT = 7 # Set this to whatever you like! Must be an odd number or else weird things will happen
-# FOR USER: implement the above
+HOMEPAGE_DISC_COUNT = 9 # Set this to whatever you like! Must be an odd number or else weird things will happen
 HOMEPAGE_BLANK_DISC_ASSET = "/static/no-image.png"
 HOMEPAGE_NO_DISC_ASSET= "/static/no-disc.png"
 # FOR USER: Move this asset to local staticfiles
+
+#TODO: Implement control URL, disc count
